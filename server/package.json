@@ -1,0 +1,28 @@
+{
+  "name": "task-management-app",
+  "version": "1.0.0",
+  "description": "Task management app",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "bcryptjs": "*",
+    "body-parser": "*",
+    "cors": "*",
+    "dotenv": "^5.0.1",
+    "express": "*",
+    "express-validator": "^5.2.0",
+    "helmet": "^3.13.0",
+    "jsonwebtoken": "*",
+    "mongoose": "^5.1.4",
+    "mongoose-skip-empty": "^1.0.0",
+    "morgan": "^1.9.0",
+    "passport": "*",
+    "passport-jwt": "*",
+    "async": "*"
+  },
+  "author": "Diamant Haxhimusa",
+  "license": "ISC"
+}
