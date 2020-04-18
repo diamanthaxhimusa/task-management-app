@@ -3,6 +3,7 @@ const User = require("../models/user");
 const config = require("../config/database");
 const jwt = require("jsonwebtoken");
 const errService = require("../utils/send-errors");
+const userValidation = require("../middlewares/user_validation");
 
 /*
  * Base endpoint: /api/{endpoint_path}
@@ -48,6 +49,37 @@ router.post("/login", (req, res) => {
     })
     .catch((err) => {
       errService.sendDbErr(res, err);
+    });
+});
+
+// Register Route
+router.post("/register", userValidation, (req, res) => {
+  let newUser = new User({
+    firstName: req.body.firstName,
+    lastName: req.body.lastName,
+    email: req.body.email,
+    password: req.body.password,
+  });
+
+  User.findUserByEmail(newUser.email)
+    .then((exists) => {
+      if (exists) {
+        errService.sendInvalidDataErr(res, "This email already exists!");
+        return;
+      } else {
+        User.addUser(newUser)
+          .then((cUser) => {
+            res.json(cUser);
+          })
+          .catch((err) => {
+            errService.sendDbErr(res, err);
+            return;
+          });
+      }
+    })
+    .catch((err) => {
+      errService.sendDbErr(res, err);
+      return;
     });
 });
 
