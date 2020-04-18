@@ -1,6 +1,7 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
+const passport = require("passport");
 const mongoose = require("mongoose");
 const config = require("./config/database");
 const morgan = require("morgan");
@@ -23,8 +24,15 @@ mongoose.connection
 
 const app = express();
 
+// Passing Passport module to configure authentication middleware
+require("./config/passport")(passport); // pass passport for configuration
+
 // Port number
 const port = process.env.SERVER_PORT;
+
+// Validation
+const validator = require("express-validator");
+app.use(validator());
 
 // CORS middleware
 app.use(cors());
@@ -34,10 +42,8 @@ app.use(bodyParser.json());
 
 app.use(helmet());
 
-// Index Route
-app.get("/", (req, res) => {
-  res.send("Task Management App");
-});
+// Registering all services
+app.use("/api/v1", require("./services"));
 
 // Log every request into console
 app.use(morgan("dev"));
