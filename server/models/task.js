@@ -10,6 +10,7 @@ const schemaOptions = {
 const TaskSchema = mongoose.Schema(
   {
     user: { type: ObjectId, ref: "User", required: true },
+    list: { type: ObjectId, ref: "List", default: null },
     title: { type: String, required: true },
     description: { type: String, default: "" },
     due_date: { type: String, required: true },
