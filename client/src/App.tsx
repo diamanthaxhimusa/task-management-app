@@ -1,8 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
+import AppbarLayout from './components/Appbar';
+import Toolbar from '@material-ui/core/Toolbar';
+
 import AppLoading from './components/common/AppLoading';
 import NotFound from './routes/not_found';
+
 import { Route as RouteConstants } from './utils/enums/routes';
 import { IRouteProps, privateRoutes, publicRoutes } from './utils/constants/routes';
 import colors from './utils/theme/colors';
@@ -11,6 +15,11 @@ import { isTokenValid } from './utils/token';
 const Wrapper = styled.div`
   flex: 1;
   background-color: ${colors.background};
+`;
+
+const Content = styled.div`
+  flex: 1;
+  padding: 30px;
 `;
 
 const App: React.FC = () => {
@@ -22,7 +31,13 @@ const App: React.FC = () => {
 
   const PrivateRoute = ({ ...rest }) => {
     return isTokenValid() ? (
-      <Route {...rest} />
+      <>
+        <AppbarLayout />
+        <Toolbar />
+        <Content>
+          <Route {...rest} />
+        </Content>
+      </>
     ) : (
       <Redirect to={{ pathname: `/${RouteConstants.LOG_IN}` }} />
     );
@@ -58,7 +73,7 @@ const App: React.FC = () => {
               {publicRoutes.map(({ ...rest }, i: number) => (
                 <PublicRoute {...rest} key={`public-route-${i}`} />
               ))}
-              {/* <Route component={NotFound} /> */}
+              <Route component={NotFound} />
             </Switch>
           </BrowserRouter>
         </Wrapper>

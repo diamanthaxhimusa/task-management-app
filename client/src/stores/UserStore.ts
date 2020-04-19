@@ -1,13 +1,13 @@
 import { action, observable } from 'mobx';
 import { IUserInfo, IUserLoginReqDTO, IUserRegisterReqDTO } from '../interfaces/user';
 import { userLogin, userRegister } from '../api/api';
-import { setAccessToken } from '../utils/token';
+import { setAccessToken, removeAccessToken } from '../utils/token';
 import { Route } from '../utils/enums/routes';
 
 export class UserStore {
   @observable public user: IUserInfo | null = null;
 
-  @action public setUser = (user: IUserInfo) => {
+  @action public setUser = (user: IUserInfo | null) => {
     this.user = user;
   };
 
@@ -38,5 +38,10 @@ export class UserStore {
       );
       return { isSuccess: false };
     }
+  };
+
+  @action public logout = async () => {
+    this.setUser(null);
+    removeAccessToken();
   };
 }

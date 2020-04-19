@@ -2,7 +2,7 @@ import { Route } from '../enums/routes';
 import Dashboard from '../../routes/dashboard';
 import Login from '../../routes/login';
 import Register from '../../routes/register';
-import NotFound from '../../routes/not_found';
+import Profile from '../../routes/profile';
 
 export interface IRouteProps {
   component: React.FC;
@@ -14,6 +14,10 @@ export const privateRoutes: IRouteProps[] = [
   {
     path: `/${Route.DASHBOARD}`,
     component: Dashboard
+  },
+  {
+    path: `/${Route.PROFILE}`,
+    component: Profile
   }
 ];
 
@@ -27,8 +31,4 @@ export const publicRoutes: IRouteProps[] = [
     exact: true,
     component: Register
   }
-  // {
-  //   path: '*',
-  //   component: NotFound
-  // }
 ];
