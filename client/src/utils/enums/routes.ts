@@ -3,6 +3,5 @@ export enum Route {
   REGISTER = 'register',
   PROFILE = 'my-account',
   TASKS = 'tasks',
-  INTENTS = 'lists',
-  USERS = 'tasks'
+  LISTS = 'lists'
 }

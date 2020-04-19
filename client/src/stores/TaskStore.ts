@@ -1,4 +1,4 @@
-import { action, observable } from 'mobx';
+import { action, observable, computed } from 'mobx';
 import { ITaskInfo, ITaskCreateReqDTO } from '../interfaces/task';
 import {
   createTask as createTaskApi,
@@ -9,6 +9,10 @@ import {
 
 export class TaskStore {
   @observable public tasks: ITaskInfo[] = [];
+
+  @action public availableTasks = () => {
+    return this.tasks.filter(task => !task.list);
+  };
 
   @action public setTasks = (tasks: ITaskInfo[]) => {
     this.tasks = tasks;

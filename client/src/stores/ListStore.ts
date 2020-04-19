@@ -1,6 +1,11 @@
 import { action, observable } from 'mobx';
 import { IList, IListCreateReqDTO } from '../interfaces/list';
-import { listDelete, createList as createListAPI, getLists as getListsAPI } from '../api/api';
+import {
+  listDelete,
+  createList as createListAPI,
+  getLists as getListsAPI,
+  listUpdate
+} from '../api/api';
 
 export class ListStore {
   @observable public lists: IList[] = [];
@@ -28,6 +33,19 @@ export class ListStore {
       return true;
     } catch (error) {
       return false;
+    }
+  };
+
+  @action public editList = async (id: string, data: any): Promise<{ isSuccess: boolean }> => {
+    try {
+      await listUpdate(id, data);
+      this.getLists();
+      return { isSuccess: true };
+    } catch (error) {
+      // TODO ERRORS
+      if (error.err) alert(error.err);
+      else alert('Error.');
+      return { isSuccess: false };
     }
   };
 

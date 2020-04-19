@@ -9,9 +9,15 @@ import { KeyboardDatePicker } from '@material-ui/pickers';
 import { useStores } from '../utils/hooks/useStores';
 import { Route } from '../utils/enums/routes';
 import { useHistory } from 'react-router-dom';
+import Input from '@material-ui/core/Input';
 import Task from '../components/Task';
+import Chip from '@material-ui/core/Chip';
+import Select from '@material-ui/core/Select';
+import FormControl from '@material-ui/core/FormControl';
+import MenuItem from '@material-ui/core/MenuItem';
+import List from '../components/List';
 
-interface ITasksRouteProps {}
+interface IListsRouteProps {}
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -40,6 +46,18 @@ const useStyles = makeStyles(theme => ({
   },
   form: {
     marginBottom: theme.spacing(2)
+  },
+  formControl: {
+    margin: theme.spacing(1),
+    minWidth: 120,
+    maxWidth: 300
+  },
+  chips: {
+    display: 'flex',
+    flexWrap: 'wrap'
+  },
+  chip: {
+    margin: 2
   }
 }));
 
@@ -59,14 +77,24 @@ const TaskContainer = styled.div`
   justify-content: space-between;
 `;
 
-const TasksRoute: React.FC<ITasksRouteProps> = () => {
+const ITEM_HEIGHT = 48;
+const ITEM_PADDING_TOP = 8;
+const MenuProps = {
+  PaperProps: {
+    style: {
+      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+      width: 250
+    }
+  }
+};
+
+const ListsRoute: React.FC<IListsRouteProps> = () => {
   const classes = useStyles();
-  const { push } = useHistory();
-  const { taskStore } = useStores();
+  const { listStore, taskStore } = useStores();
   const [createFocused, setCreateFocused] = useState<boolean>(false);
   const [title, setTitle] = useState<string>('');
   const [description, setDescription] = useState<string>('');
-  const [dueDate, setDueDate] = React.useState<string>('');
+  const [tasks, setTasks] = useState<string[]>([]);
 
   const onInputFocus = () => {
     setCreateFocused(true);
@@ -76,28 +104,28 @@ const TasksRoute: React.FC<ITasksRouteProps> = () => {
     setCreateFocused(false);
   };
 
-  const handleDateChange = (date: any) => {
-    setDueDate(date);
-  };
-
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const { isSuccess } = await taskStore.createTask({
+    const { isSuccess } = await listStore.createList({
       title,
       description,
-      due_date: dueDate
+      tasks
     });
     if (isSuccess) {
       setTitle('');
       setDescription('');
-      setDueDate('');
+      setTasks([]);
     }
+  };
+
+  const handleChange = (event: any) => {
+    setTasks(event.target.value);
   };
 
   return (
     <Container>
       <div>
-        <h4>Start Creating a task</h4>
+        <h4>Start Creating a list</h4>
       </div>
       <Paper elevation={3} className={classes.root}>
         <Collapse
@@ -111,7 +139,7 @@ const TasksRoute: React.FC<ITasksRouteProps> = () => {
                 required
                 className={classes.input}
                 onFocus={onInputFocus}
-                placeholder="Task name"
+                placeholder="List name"
                 value={title}
                 onInput={e => {
                   const target = e.target as HTMLInputElement;
@@ -132,17 +160,30 @@ const TasksRoute: React.FC<ITasksRouteProps> = () => {
                 }}
               />
               <Divider />
-              <label className={classes.label}>Due date</label>
-              <InputBase
-                required
-                className={classes.input}
-                type="date"
-                value={dueDate}
-                onInput={e => {
-                  const target = e.target as HTMLInputElement;
-                  setDueDate(target.value);
-                }}
-              />
+              <FormControl className={classes.formControl}>
+                <Select
+                  labelId="demo-mutiple-chip-label"
+                  id="demo-mutiple-chip"
+                  multiple
+                  value={tasks}
+                  onChange={handleChange}
+                  input={<Input id="select-multiple-chip" />}
+                  renderValue={(selected: any) => (
+                    <div className={classes.chips}>
+                      {selected.map((value: any) => (
+                        <Chip key={value} label={value} className={classes.chip} />
+                      ))}
+                    </div>
+                  )}
+                  MenuProps={MenuProps}
+                >
+                  {taskStore.availableTasks().map(task => (
+                    <MenuItem key={task._id} value={task._id}>
+                      {task.title}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
             </div>
             <div style={{ display: 'flex', justifyContent: 'space-evenly', marginTop: 20 }}>
               <Button onClick={closeForm} variant="contained">
@@ -156,12 +197,12 @@ const TasksRoute: React.FC<ITasksRouteProps> = () => {
         </Collapse>
       </Paper>
       <TaskContainer>
-        {taskStore.tasks.map((task, index) => (
-          <Task key={index} task={task} />
+        {listStore.lists.map((list, index) => (
+          <List key={index} list={list} />
         ))}
       </TaskContainer>
     </Container>
   );
 };
 
-export default observer(TasksRoute);
+export default observer(ListsRoute);

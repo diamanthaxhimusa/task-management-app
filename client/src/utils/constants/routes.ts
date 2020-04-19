@@ -1,5 +1,6 @@
 import { Route } from '../enums/routes';
 import TasksRoute from '../../routes/tasks';
+import ListsRoute from '../../routes/lists';
 import Login from '../../routes/login';
 import Register from '../../routes/register';
 import Profile from '../../routes/profile';
@@ -14,6 +15,10 @@ export const privateRoutes: IRouteProps[] = [
   {
     path: `/${Route.TASKS}`,
     component: TasksRoute
+  },
+  {
+    path: `/${Route.LISTS}`,
+    component: ListsRoute
   },
   {
     path: `/${Route.PROFILE}`,

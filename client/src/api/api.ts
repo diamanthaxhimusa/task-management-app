@@ -76,10 +76,11 @@ export const getLists = () =>
     url: endpoints.lists
   });
 
-export const listUpdate = (listId: string) =>
+export const listUpdate = (listId: string, data: any) =>
   api({
     method: 'PUT',
-    url: endpoints.singleList(listId)
+    url: endpoints.singleList(listId),
+    data
   });
 
 export const listDelete = (listId: string) =>

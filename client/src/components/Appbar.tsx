@@ -25,7 +25,9 @@ const useStyles = makeStyles(theme => ({
     zIndex: 1201
   },
   grow: {
-    flexGrow: 1
+    flexGrow: 1,
+    display: 'flex',
+    justifyContent: 'center'
   }
 }));
 
@@ -42,15 +44,17 @@ const AppbarLayout: React.FC<IAppbarLayoutProps> = () => {
   return (
     <AppBar color="primary" position="fixed" className={classes.appbar}>
       <Toolbar>
-        <Typography
-          component={Link}
-          to={`/${Route.TASKS}`}
-          variant="h6"
-          color="inherit"
-          className={classes.grow}
-        >
+        <Typography component={Link} to={`/${Route.TASKS}`} variant="h6" color="inherit">
           T M A
         </Typography>
+        <div className={classes.grow}>
+          <Button component={Link} to={`/${Route.TASKS}`} color="inherit">
+            Tasks
+          </Button>
+          <Button component={Link} to={`/${Route.LISTS}`} color="inherit">
+            Lists
+          </Button>
+        </div>
         <Button component={Link} to={`/${Route.PROFILE}`} color="inherit">
           My Account
         </Button>

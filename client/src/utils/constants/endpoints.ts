@@ -7,5 +7,5 @@ export default {
   me: '/users/me',
   completeTask: (taskId: string) => `/tasks/${taskId}/set-complete`,
   singleTask: (taskId: string) => `/tasks/${taskId}`,
-  singleList: (listId: string) => `/tasks/${listId}`
+  singleList: (listId: string) => `/lists/${listId}`
 };
