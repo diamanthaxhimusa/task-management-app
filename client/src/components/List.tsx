@@ -62,6 +62,7 @@ const List: React.FC<IListProps> = ({ list }) => {
     tasks.map(task => {
       if (task._id !== id) taskIds.push(task._id);
     });
+    taskStore.editTask(id, { list: null });
     listStore.editList(_id, { tasks: taskIds });
   };
 

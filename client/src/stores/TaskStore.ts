@@ -4,7 +4,8 @@ import {
   createTask as createTaskApi,
   getTasks as getTasksApi,
   completeTask,
-  taskDelete
+  taskDelete,
+  taskUpdate
 } from '../api/api';
 
 export class TaskStore {
@@ -47,6 +48,19 @@ export class TaskStore {
       return true;
     } catch (error) {
       return false;
+    }
+  };
+
+  @action public editTask = async (id: string, data: any): Promise<{ isSuccess: boolean }> => {
+    try {
+      await taskUpdate(id, data);
+      this.getTasks();
+      return { isSuccess: true };
+    } catch (error) {
+      // TODO ERRORS
+      if (error.err) alert(error.err);
+      else alert('Error.');
+      return { isSuccess: false };
     }
   };
 

@@ -51,10 +51,11 @@ export const completeTask = (completed: boolean, taskId: string) =>
     data: { completed }
   });
 
-export const taskUpdate = (taskId: string) =>
+export const taskUpdate = (taskId: string, data: any) =>
   api({
     method: 'PUT',
-    url: endpoints.singleTask(taskId)
+    url: endpoints.singleTask(taskId),
+    data
   });
 
 export const taskDelete = (taskId: string) =>
