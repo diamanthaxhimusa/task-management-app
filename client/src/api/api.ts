@@ -2,6 +2,7 @@ import api from '.';
 import endpoints from '../utils/constants/endpoints';
 import { IUserLoginReqDTO, IUserRegisterReqDTO } from '../interfaces/user';
 import { ITaskCreateReqDTO } from '../interfaces/task';
+import { IListCreateReqDTO } from '../interfaces/list';
 
 export const userLogin = (data: IUserLoginReqDTO) =>
   api({
@@ -30,11 +31,11 @@ export const getMyProfile = () =>
     url: endpoints.me
   });
 
-export const createTask = ({ title, description, due_date }: ITaskCreateReqDTO) =>
+export const createTask = (data: ITaskCreateReqDTO) =>
   api({
     method: 'POST',
     url: endpoints.tasks,
-    data: { title, description, due_date }
+    data
   });
 
 export const getTasks = () =>
@@ -50,8 +51,39 @@ export const completeTask = (completed: boolean, taskId: string) =>
     data: { completed }
   });
 
+export const taskUpdate = (taskId: string) =>
+  api({
+    method: 'PUT',
+    url: endpoints.singleTask(taskId)
+  });
+
 export const taskDelete = (taskId: string) =>
   api({
     method: 'DELETE',
-    url: endpoints.deleteTask(taskId)
+    url: endpoints.singleTask(taskId)
+  });
+
+export const createList = (data: IListCreateReqDTO) =>
+  api({
+    method: 'POST',
+    url: endpoints.lists,
+    data
+  });
+
+export const getLists = () =>
+  api({
+    method: 'GET',
+    url: endpoints.lists
+  });
+
+export const listUpdate = (listId: string) =>
+  api({
+    method: 'PUT',
+    url: endpoints.singleList(listId)
+  });
+
+export const listDelete = (listId: string) =>
+  api({
+    method: 'DELETE',
+    url: endpoints.singleList(listId)
   });

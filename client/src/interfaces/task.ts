@@ -4,6 +4,7 @@ export interface ITask {
   description: string;
   due_date: string;
   completed: boolean;
+  list: string;
 }
 
 export interface ITaskInfo extends ITask {

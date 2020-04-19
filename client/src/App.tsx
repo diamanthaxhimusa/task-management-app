@@ -24,7 +24,7 @@ const Content = styled.div`
 `;
 
 const App: React.FC = () => {
-  const { userStore, taskStore } = useStores();
+  const { userStore, taskStore, listStore } = useStores();
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
   useEffect(() => {
@@ -32,6 +32,7 @@ const App: React.FC = () => {
       if (isTokenValid()) {
         await userStore.getMe();
         await taskStore.getTasks();
+        await listStore.getLists();
         setIsLoading(false);
       }
     };

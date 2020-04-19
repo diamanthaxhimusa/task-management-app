@@ -21,7 +21,9 @@ const ListSchema = mongoose.Schema(
 const List = (module.exports = mongoose.model("List", ListSchema));
 
 module.exports.addList = (newList) => {
-  return newList.save();
+  return Task.updateManyTasks(newList.tasks, { list: newList._id }).then(() =>
+    newList.save()
+  );
 };
 
 module.exports.deleteList = (id) => {
