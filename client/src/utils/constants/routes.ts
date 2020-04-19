@@ -1,5 +1,5 @@
 import { Route } from '../enums/routes';
-import Dashboard from '../../routes/dashboard';
+import TasksRoute from '../../routes/tasks';
 import Login from '../../routes/login';
 import Register from '../../routes/register';
 import Profile from '../../routes/profile';
@@ -12,8 +12,8 @@ export interface IRouteProps {
 
 export const privateRoutes: IRouteProps[] = [
   {
-    path: `/${Route.DASHBOARD}`,
-    component: Dashboard
+    path: `/${Route.TASKS}`,
+    component: TasksRoute
   },
   {
     path: `/${Route.PROFILE}`,

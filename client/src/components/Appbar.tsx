@@ -44,7 +44,7 @@ const AppbarLayout: React.FC<IAppbarLayoutProps> = () => {
       <Toolbar>
         <Typography
           component={Link}
-          to={`/${Route.DASHBOARD}`}
+          to={`/${Route.TASKS}`}
           variant="h6"
           color="inherit"
           className={classes.grow}

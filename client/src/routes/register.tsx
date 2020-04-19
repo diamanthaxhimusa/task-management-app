@@ -39,7 +39,7 @@ const Register: React.FC<IRegisterProps> = () => {
       password
     });
     if (isSuccess) {
-      push(`/${Route.DASHBOARD}`);
+      push(`/${Route.TASKS}`);
     }
   };
 

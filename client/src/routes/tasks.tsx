@@ -11,7 +11,7 @@ import { Route } from '../utils/enums/routes';
 import { useHistory } from 'react-router-dom';
 import Task from '../components/Task';
 
-interface IDashboardProps {}
+interface ITasksRouteProps {}
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -59,7 +59,7 @@ const TaskContainer = styled.div`
   justify-content: space-between;
 `;
 
-const Dashboard: React.FC<IDashboardProps> = () => {
+const TasksRoute: React.FC<ITasksRouteProps> = () => {
   const classes = useStyles();
   const { push } = useHistory();
   const { taskStore } = useStores();
@@ -161,4 +161,4 @@ const Dashboard: React.FC<IDashboardProps> = () => {
   );
 };
 
-export default observer(Dashboard);
+export default observer(TasksRoute);

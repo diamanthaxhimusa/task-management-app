@@ -55,7 +55,7 @@ const App: React.FC = () => {
 
   const PublicRoute = ({ ...rest }) => {
     return isTokenValid() ? (
-      <Redirect to={{ pathname: `/${RouteConstants.DASHBOARD}` }} />
+      <Redirect to={{ pathname: `/${RouteConstants.TASKS}` }} />
     ) : (
       <Route {...rest} />
     );
@@ -73,7 +73,7 @@ const App: React.FC = () => {
                 path="/"
                 exact={true}
                 component={() => {
-                  const pathname = `/${RouteConstants.DASHBOARD}`;
+                  const pathname = `/${RouteConstants.TASKS}`;
                   return <Redirect to={{ pathname }} />;
                 }}
               />

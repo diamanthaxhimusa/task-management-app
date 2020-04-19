@@ -34,7 +34,7 @@ const Login: React.FC<ILoginProps> = () => {
       email,
       password
     });
-    if (isSuccess) push(`/${Route.DASHBOARD}`);
+    if (isSuccess) push(`/${Route.TASKS}`);
   };
 
   return (

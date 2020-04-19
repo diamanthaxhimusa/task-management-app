@@ -2,7 +2,7 @@ export enum Route {
   LOG_IN = 'login',
   REGISTER = 'register',
   PROFILE = 'my-account',
-  DASHBOARD = 'dashboard',
+  TASKS = 'tasks',
   INTENTS = 'lists',
   USERS = 'tasks'
 }
