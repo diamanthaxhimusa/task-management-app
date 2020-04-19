@@ -7,8 +7,7 @@ import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
 import AuthCard from '../components/common/AuthCard';
 import { Route } from '../utils/enums/routes';
-import { userLogin } from '../api/api';
-import { setAccessToken } from '../utils/token';
+import { useStores } from '../utils/hooks/useStores';
 
 interface ILoginProps {}
 
@@ -25,17 +24,17 @@ const useStyles = makeStyles(theme => ({
 const Login: React.FC<ILoginProps> = () => {
   const classes = useStyles();
   const { push } = useHistory();
+  const { userStore } = useStores();
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const response = await userLogin({
+    const { isSuccess } = await userStore.loginUser({
       email,
       password
     });
-    setAccessToken(response.data.token);
-    push(`/${Route.DASHBOARD}`);
+    if (isSuccess) push(`/${Route.DASHBOARD}`);
   };
 
   return (

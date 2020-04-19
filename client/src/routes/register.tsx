@@ -7,8 +7,7 @@ import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
 import AuthCard from '../components/common/AuthCard';
 import { Route } from '../utils/enums/routes';
-import { userRegister } from '../api/api';
-import { setAccessToken } from '../utils/token';
+import { useStores } from '../utils/hooks/useStores';
 
 interface IRegisterProps {}
 
@@ -25,6 +24,7 @@ const useStyles = makeStyles(theme => ({
 const Register: React.FC<IRegisterProps> = () => {
   const classes = useStyles();
   const { push } = useHistory();
+  const { userStore } = useStores();
   const [email, setEmail] = useState<string>('');
   const [firstName, setFirstName] = useState<string>('');
   const [lastName, setLastName] = useState<string>('');
@@ -32,14 +32,15 @@ const Register: React.FC<IRegisterProps> = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const response = await userRegister({
+    const { isSuccess } = await userStore.registerUser({
       firstName,
       lastName,
       email,
       password
     });
-    setAccessToken(response.data.token);
-    push(`/${Route.DASHBOARD}`);
+    if (isSuccess) {
+      push(`/${Route.DASHBOARD}`);
+    }
   };
 
   return (
