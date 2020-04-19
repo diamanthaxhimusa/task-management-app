@@ -49,3 +49,9 @@ export const completeTask = (completed: boolean, taskId: string) =>
     url: endpoints.completeTask(taskId),
     data: { completed }
   });
+
+export const taskDelete = (taskId: string) =>
+  api({
+    method: 'DELETE',
+    url: endpoints.deleteTask(taskId)
+  });

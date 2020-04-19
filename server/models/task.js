@@ -24,6 +24,10 @@ module.exports.addTask = (newTask) => {
   return newTask.save();
 };
 
+module.exports.deleteTask = (id) => {
+  return Task.deleteOne({ _id: ObjectId(id) });
+};
+
 module.exports.updateTask = (id, updatedTask) => {
   return Task.findOneAndUpdate(
     { _id: ObjectId(id) },

@@ -42,7 +42,13 @@ const AppbarLayout: React.FC<IAppbarLayoutProps> = () => {
   return (
     <AppBar color="primary" position="fixed" className={classes.appbar}>
       <Toolbar>
-        <Typography variant="h6" color="inherit" className={classes.grow}>
+        <Typography
+          component={Link}
+          to={`/${Route.DASHBOARD}`}
+          variant="h6"
+          color="inherit"
+          className={classes.grow}
+        >
           T M A
         </Typography>
         <Button component={Link} to={`/${Route.PROFILE}`} color="inherit">

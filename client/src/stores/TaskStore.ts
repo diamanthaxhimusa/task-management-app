@@ -1,6 +1,11 @@
 import { action, observable } from 'mobx';
 import { ITaskInfo, ITaskCreateReqDTO } from '../interfaces/task';
-import { createTask as createTaskApi, getTasks as getTasksApi, completeTask } from '../api/api';
+import {
+  createTask as createTaskApi,
+  getTasks as getTasksApi,
+  completeTask,
+  taskDelete
+} from '../api/api';
 
 export class TaskStore {
   @observable public tasks: ITaskInfo[] = [];
@@ -33,7 +38,17 @@ export class TaskStore {
 
   @action public setTaskCompleted = async (completed: boolean, taskId: string): Promise<any> => {
     try {
-      const response = await completeTask(completed, taskId);
+      await completeTask(completed, taskId);
+      this.getTasks();
+      return true;
+    } catch (error) {
+      return false;
+    }
+  };
+
+  @action public deleteTask = async (taskId: string): Promise<any> => {
+    try {
+      await taskDelete(taskId);
       this.getTasks();
       return true;
     } catch (error) {

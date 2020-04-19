@@ -46,6 +46,19 @@ router.put("/:id/set-complete", authN, (req, res) => {
     });
 });
 
+// Delete
+router.delete("/:id", authN, (req, res) => {
+  const taskId = req.params.id;
+  Task.deleteTask(taskId)
+    .then(() => {
+      res.json({ success: true });
+    })
+    .catch((err) => {
+      errService.sendDbErr(res, err);
+      return;
+    });
+});
+
 router.put("/:id", authN, (req, res) => {
   const taskId = req.params.id;
   Task.updateTask(taskId, req.body)

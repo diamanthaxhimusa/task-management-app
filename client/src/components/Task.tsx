@@ -50,6 +50,10 @@ const Task: React.FC<ITaskProps> = ({ task }) => {
     taskStore.setTaskCompleted(!completed, _id);
   };
 
+  const deleteTask = () => {
+    taskStore.deleteTask(_id);
+  };
+
   return (
     <Card className={classes.root}>
       <CardHeader
@@ -66,7 +70,7 @@ const Task: React.FC<ITaskProps> = ({ task }) => {
         <IconButton aria-label="check" onClick={toggleStatus}>
           {completed ? <CheckBoxIcon /> : <CheckBoxOutlineBlankIcon />}
         </IconButton>
-        <IconButton aria-label="delete">
+        <IconButton aria-label="delete" onClick={deleteTask}>
           <DeleteIcon />
         </IconButton>
         <IconButton aria-label="edit">
