@@ -4,3 +4,8 @@ export interface ITask {
   due_date: string;
   completed: boolean;
 }
+
+export interface ITaskInfo extends ITask {
+  createdAt: string;
+  updatedAt: string;
+}
