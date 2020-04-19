@@ -6,7 +6,7 @@ const errService = require("../utils/send-errors");
 const userValidation = require("../middlewares/user_validation");
 
 /*
- * Base endpoint: /api/{endpoint_path}
+ * Base endpoint: /api/v1/{endpoint_path}
  */
 
 // Login Route

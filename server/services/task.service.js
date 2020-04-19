@@ -5,6 +5,10 @@ const passport = require("passport");
 const authN = passport.authenticate("jwt", { session: false });
 const errService = require("../utils/send-errors");
 
+/*
+ * Base endpoint: /api/v1/{endpoint_path}
+ */
+
 router.get("/", authN, (req, res) => {
   const { id } = req.user;
   Task.getUserTasks(id)

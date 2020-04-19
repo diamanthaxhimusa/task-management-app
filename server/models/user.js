@@ -68,6 +68,10 @@ module.exports.findUserByEmail = (email) => {
   return User.findOne({ email: email });
 };
 
+module.exports.findCountByEmail = (email) => {
+  return User.find({ email: email }).countDocuments();
+};
+
 module.exports.comparePassword = (candidatePassword, hash, callback) => {
   return bcrypt
     .compare(candidatePassword, hash)

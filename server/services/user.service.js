@@ -8,8 +8,15 @@ const authN = passport.authenticate("jwt", { session: false });
 const errService = require("../utils/send-errors");
 
 /*
- * Base endpoint: /api/users
+ * Base endpoint: /api/v1/users
  */
+
+router.get("/me", authN, (req, res) => {
+  User.getUserById(req.user._id)
+    .then((user) => res.json(user))
+    .catch((err) => errService.sendDbErr(res, err));
+});
+
 // Change password
 router.put(
   "/change-password",
@@ -29,16 +36,13 @@ router.put(
 );
 
 // Update
-router.put("/:id", authN, userUpdateValidation, (req, res) => {
-  const userId = req.params.id;
+router.put("/", authN, userUpdateValidation, (req, res) => {
+  const userId = req.user._id;
 
   let updatedUser = {
     firstName: req.body.firstName,
     lastName: req.body.lastName,
     email: req.body.email.toLowerCase(),
-    gender: req.body.gender,
-    profileImg: req.body.profileImg,
-    role: req.body.role,
   };
 
   User.findCountByEmail(updatedUser.email)

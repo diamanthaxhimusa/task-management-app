@@ -30,6 +30,7 @@ const App: React.FC = () => {
   useEffect(() => {
     const getTasks = async () => {
       if (isTokenValid()) {
+        await userStore.getMe();
         await taskStore.getTasks();
         setIsLoading(false);
       }

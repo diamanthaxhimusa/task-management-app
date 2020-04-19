@@ -3,18 +3,31 @@ import endpoints from '../utils/constants/endpoints';
 import { IUserLoginReqDTO, IUserRegisterReqDTO } from '../interfaces/user';
 import { ITaskCreateReqDTO } from '../interfaces/task';
 
-export const userLogin = ({ email, password }: IUserLoginReqDTO) =>
+export const userLogin = (data: IUserLoginReqDTO) =>
   api({
     method: 'POST',
     url: endpoints.login,
-    data: { email, password }
+    data
   });
 
-export const userRegister = ({ firstName, lastName, email, password }: IUserRegisterReqDTO) =>
+export const userRegister = (data: IUserRegisterReqDTO) =>
   api({
     method: 'POST',
     url: endpoints.register,
-    data: { firstName, lastName, email, password }
+    data
+  });
+
+export const userEdit = (data: any) =>
+  api({
+    method: 'PUT',
+    url: endpoints.editUser,
+    data
+  });
+
+export const getMyProfile = () =>
+  api({
+    method: 'GET',
+    url: endpoints.me
   });
 
 export const createTask = ({ title, description, due_date }: ITaskCreateReqDTO) =>
