@@ -12,6 +12,7 @@ require("dotenv").config();
 mongoose.connect(config.database, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
+  useFindAndModify: false,
 });
 
 mongoose.connection

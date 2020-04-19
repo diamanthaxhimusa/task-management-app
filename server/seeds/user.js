@@ -4,9 +4,6 @@ const User = require("../models/user");
 // Loading Configuration
 require("dotenv").config();
 
-console.log("process.env.DB_HOST");
-console.log(process.env.DB_HOST);
-
 // Connecting to database
 mongoose.Promise = global.Promise;
 mongoose
