@@ -32,7 +32,7 @@ router.post("/", authN, (req, res) => {
 
 router.put("/:id/set-complete", authN, (req, res) => {
   const taskId = req.params.id;
-  Task.setComplete(taskId, req.body.complete)
+  Task.setComplete(taskId, req.body.completed)
     .then((uTask) => {
       res.json(uTask);
     })

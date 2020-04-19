@@ -11,6 +11,7 @@ import { Route as RouteConstants } from './utils/enums/routes';
 import { IRouteProps, privateRoutes, publicRoutes } from './utils/constants/routes';
 import colors from './utils/theme/colors';
 import { isTokenValid } from './utils/token';
+import { useStores } from './utils/hooks/useStores';
 
 const Wrapper = styled.div`
   flex: 1;
@@ -23,11 +24,18 @@ const Content = styled.div`
 `;
 
 const App: React.FC = () => {
+  const { userStore, taskStore } = useStores();
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
-  setTimeout(() => {
-    setIsLoading(false);
-  }, 300);
+  useEffect(() => {
+    const getTasks = async () => {
+      if (isTokenValid()) {
+        await taskStore.getTasks();
+        setIsLoading(false);
+      }
+    };
+    getTasks();
+  }, [userStore]);
 
   const PrivateRoute = ({ ...rest }) => {
     return isTokenValid() ? (
