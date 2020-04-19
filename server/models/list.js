@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const Task = require("./task");
 const ObjectId = mongoose.Types.ObjectId;
 
 const schemaOptions = {
@@ -24,10 +25,11 @@ module.exports.addList = (newList) => {
 };
 
 module.exports.deleteList = (id) => {
-  let list = List.findById(id);
-  console.log("list.tasks", list.tasks);
-
-  return List.deleteOne({ _id: ObjectId(id) });
+  return List.findById(id).then((list) => {
+    Task.updateManyTasks(list.tasks, { list: null }).then(() =>
+      List.deleteOne({ _id: ObjectId(id) })
+    );
+  });
 };
 
 module.exports.updateList = (id, updatedList) => {

@@ -1,6 +1,5 @@
 const router = require("express").Router();
 const List = require("../models/list");
-// const Task = require("../models/task");
 const passport = require("passport");
 const authN = passport.authenticate("jwt", { session: false });
 const errService = require("../utils/send-errors");

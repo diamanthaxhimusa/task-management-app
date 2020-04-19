@@ -37,6 +37,14 @@ module.exports.updateTask = (id, updatedTask) => {
   );
 };
 
+module.exports.updateManyTasks = (ids, uObj) => {
+  return Task.updateMany(
+    { _id: { $in: ids } },
+    { $set: uObj },
+    { multi: true }
+  );
+};
+
 module.exports.getTaskById = (id) => {
   return Task.findById(id);
 };
