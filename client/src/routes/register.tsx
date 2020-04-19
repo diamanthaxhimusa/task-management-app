@@ -1,5 +1,5 @@
-import React from 'react';
-import { Link as RouterLink } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Link as RouterLink, useHistory } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Link from '@material-ui/core/Link';
@@ -7,6 +7,8 @@ import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
 import AuthCard from '../components/common/AuthCard';
 import { Route } from '../utils/enums/routes';
+import { userRegister } from '../api/api';
+import { setAccessToken } from '../utils/token';
 
 interface IRegisterProps {}
 
@@ -22,10 +24,27 @@ const useStyles = makeStyles(theme => ({
 
 const Register: React.FC<IRegisterProps> = () => {
   const classes = useStyles();
+  const { push } = useHistory();
+  const [email, setEmail] = useState<string>('');
+  const [firstName, setFirstName] = useState<string>('');
+  const [lastName, setLastName] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const response = await userRegister({
+      firstName,
+      lastName,
+      email,
+      password
+    });
+    setAccessToken(response.data.token);
+    push(`/${Route.DASHBOARD}`);
+  };
 
   return (
     <AuthCard title="Register">
-      <form className={classes.form}>
+      <form className={classes.form} onSubmit={handleSubmit}>
         <Grid container spacing={2}>
           <Grid item xs={12} sm={6}>
             <TextField
@@ -37,6 +56,11 @@ const Register: React.FC<IRegisterProps> = () => {
               id="firstName"
               label="First Name"
               autoFocus
+              value={firstName}
+              onInput={e => {
+                const target = e.target as HTMLInputElement;
+                setFirstName(target.value);
+              }}
             />
           </Grid>
           <Grid item xs={12} sm={6}>
@@ -48,6 +72,11 @@ const Register: React.FC<IRegisterProps> = () => {
               label="Last Name"
               name="lastName"
               autoComplete="lname"
+              value={lastName}
+              onInput={e => {
+                const target = e.target as HTMLInputElement;
+                setLastName(target.value);
+              }}
             />
           </Grid>
           <Grid item xs={12}>
@@ -59,6 +88,11 @@ const Register: React.FC<IRegisterProps> = () => {
               label="Email Address"
               name="email"
               autoComplete="email"
+              value={email}
+              onInput={e => {
+                const target = e.target as HTMLInputElement;
+                setEmail(target.value);
+              }}
             />
           </Grid>
           <Grid item xs={12}>
@@ -71,6 +105,11 @@ const Register: React.FC<IRegisterProps> = () => {
               type="password"
               id="password"
               autoComplete="current-password"
+              value={password}
+              onInput={e => {
+                const target = e.target as HTMLInputElement;
+                setPassword(target.value);
+              }}
             />
           </Grid>
         </Grid>

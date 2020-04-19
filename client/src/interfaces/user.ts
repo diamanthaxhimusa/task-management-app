@@ -11,7 +11,7 @@ export interface IUserInfo extends IUser {
 }
 
 export interface IUserLoginReqDTO {
-  username: string;
+  email: string;
   password: string;
 }
 

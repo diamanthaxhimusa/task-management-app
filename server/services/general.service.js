@@ -69,7 +69,14 @@ router.post("/register", userValidation, (req, res) => {
       } else {
         User.addUser(newUser)
           .then((cUser) => {
-            res.json(cUser);
+            const token = jwt.sign(cUser.toJSON(), config.secret, {
+              expiresIn: 86400,
+            });
+            res.json({
+              success: true,
+              token: "JWT " + token,
+              user: cUser,
+            });
           })
           .catch((err) => {
             errService.sendDbErr(res, err);

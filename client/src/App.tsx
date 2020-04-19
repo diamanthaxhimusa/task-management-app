@@ -6,10 +6,7 @@ import NotFound from './routes/not_found';
 import { Route as RouteConstants } from './utils/enums/routes';
 import { IRouteProps, privateRoutes, publicRoutes } from './utils/constants/routes';
 import colors from './utils/theme/colors';
-
-const fakeAuth = {
-  isAuthenticated: false
-};
+import { isTokenValid } from './utils/token';
 
 const Wrapper = styled.div`
   flex: 1;
@@ -24,7 +21,7 @@ const App: React.FC = () => {
   }, 300);
 
   const PrivateRoute = ({ ...rest }) => {
-    return fakeAuth.isAuthenticated ? (
+    return isTokenValid() ? (
       <Route {...rest} />
     ) : (
       <Redirect to={{ pathname: `/${RouteConstants.LOG_IN}` }} />

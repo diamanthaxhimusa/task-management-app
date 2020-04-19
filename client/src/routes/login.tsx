@@ -1,5 +1,5 @@
-import React from 'react';
-import { Link as RouterLink } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Link as RouterLink, useHistory } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Link from '@material-ui/core/Link';
@@ -7,6 +7,8 @@ import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
 import AuthCard from '../components/common/AuthCard';
 import { Route } from '../utils/enums/routes';
+import { userLogin } from '../api/api';
+import { setAccessToken } from '../utils/token';
 
 interface ILoginProps {}
 
@@ -22,10 +24,23 @@ const useStyles = makeStyles(theme => ({
 
 const Login: React.FC<ILoginProps> = () => {
   const classes = useStyles();
+  const { push } = useHistory();
+  const [email, setEmail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const response = await userLogin({
+      email,
+      password
+    });
+    setAccessToken(response.data.token);
+    push(`/${Route.DASHBOARD}`);
+  };
 
   return (
     <AuthCard title="Log In">
-      <form className={classes.form}>
+      <form className={classes.form} onSubmit={handleSubmit}>
         <TextField
           variant="outlined"
           margin="normal"
@@ -36,6 +51,11 @@ const Login: React.FC<ILoginProps> = () => {
           name="email"
           autoComplete="email"
           autoFocus
+          value={email}
+          onInput={e => {
+            const target = e.target as HTMLInputElement;
+            setEmail(target.value);
+          }}
         />
         <TextField
           variant="outlined"
@@ -47,6 +67,11 @@ const Login: React.FC<ILoginProps> = () => {
           type="password"
           id="password"
           autoComplete="current-password"
+          value={password}
+          onInput={e => {
+            const target = e.target as HTMLInputElement;
+            setPassword(target.value);
+          }}
         />
         <Button
           type="submit"
