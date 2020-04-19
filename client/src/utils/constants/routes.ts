@@ -1,6 +1,7 @@
 import { Route } from '../enums/routes';
 import Dashboard from '../../routes/dashboard';
 import Login from '../../routes/login';
+import Register from '../../routes/register';
 import NotFound from '../../routes/not_found';
 
 export interface IRouteProps {
@@ -22,9 +23,9 @@ export const publicRoutes: IRouteProps[] = [
     component: Login
   },
   {
-    path: `/${Route.SIGN_UP}`,
+    path: `/${Route.REGISTER}`,
     exact: true,
-    component: Login
+    component: Register
   }
   // {
   //   path: '*',
