@@ -28,6 +28,14 @@ const App: React.FC = () => {
     );
   };
 
+  const PublicRoute = ({ ...rest }) => {
+    return isTokenValid() ? (
+      <Redirect to={{ pathname: `/${RouteConstants.DASHBOARD}` }} />
+    ) : (
+      <Route {...rest} />
+    );
+  };
+
   return (
     <>
       {isLoading ? (
@@ -48,7 +56,7 @@ const App: React.FC = () => {
                 <PrivateRoute {...rest} key={`public-route-${i}`} />
               ))}
               {publicRoutes.map(({ ...rest }, i: number) => (
-                <Route {...rest} key={`public-route-${i}`} />
+                <PublicRoute {...rest} key={`public-route-${i}`} />
               ))}
               {/* <Route component={NotFound} /> */}
             </Switch>
