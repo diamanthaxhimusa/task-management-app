@@ -35,11 +35,32 @@ module.exports.deleteList = (id) => {
 };
 
 module.exports.updateList = (id, updatedList) => {
-  return List.findOneAndUpdate(
-    { _id: ObjectId(id) },
-    { $set: updatedList },
-    { new: true }
+  return Task.updateManyTasks(updatedList.tasks, {
+    list: id,
+  }).then(() =>
+    List.findOneAndUpdate(
+      { _id: ObjectId(id) },
+      { $set: updatedList },
+      { new: true }
+    )
   );
+};
+
+module.exports.removeTask = (id, taskId, newList) => {
+  return List.findById(id, (err, list) => {
+    if (list) {
+      let array = list.tasks.filter((task) => task != taskId);
+      list.tasks = array;
+      list.save();
+      List.findById(newList, (err, nlist) => {
+        if (nlist) {
+          let find = nlist.tasks.find((task) => task == id);
+          if (!find) nlist.tasks.push(id);
+          nlist.save();
+        }
+      });
+    }
+  });
 };
 
 module.exports.addTask = (task) => {

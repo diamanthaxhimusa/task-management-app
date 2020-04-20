@@ -5,11 +5,15 @@ import styled from 'styled-components';
 import Paper from '@material-ui/core/Paper';
 import InputBase from '@material-ui/core/InputBase';
 import { Divider, Collapse, Button } from '@material-ui/core';
-import { KeyboardDatePicker } from '@material-ui/pickers';
 import { useStores } from '../utils/hooks/useStores';
 import { Route } from '../utils/enums/routes';
 import { useHistory } from 'react-router-dom';
 import Task from '../components/Task';
+
+import Select from '@material-ui/core/Select';
+import FormControl from '@material-ui/core/FormControl';
+import MenuItem from '@material-ui/core/MenuItem';
+import { IList } from '../interfaces/list';
 
 interface ITasksRouteProps {}
 
@@ -40,8 +44,22 @@ const useStyles = makeStyles(theme => ({
   },
   form: {
     marginBottom: theme.spacing(2)
+  },
+  formControl: {
+    margin: theme.spacing(1)
   }
 }));
+
+const ITEM_HEIGHT = 48;
+const ITEM_PADDING_TOP = 8;
+const MenuProps = {
+  PaperProps: {
+    style: {
+      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+      width: 250
+    }
+  }
+};
 
 const Container = styled.div`
   flex: 1;
@@ -60,15 +78,20 @@ const TaskContainer = styled.div`
 
 const TasksRoute: React.FC<ITasksRouteProps> = () => {
   const classes = useStyles();
-  const { push } = useHistory();
-  const { taskStore } = useStores();
+  const { taskStore, listStore } = useStores();
   const [createFocused, setCreateFocused] = useState<boolean>(false);
   const [title, setTitle] = useState<string>('');
   const [description, setDescription] = useState<string>('');
   const [dueDate, setDueDate] = React.useState<string>('');
+  const [lists, setLists] = useState<IList[]>(listStore.lists);
+  const [listId, setListId] = useState<string>('');
 
   const onInputFocus = () => {
     setCreateFocused(true);
+  };
+
+  const handleChange = (event: any) => {
+    setListId(event.target.value);
   };
 
   const closeForm = () => {
@@ -91,6 +114,11 @@ const TasksRoute: React.FC<ITasksRouteProps> = () => {
       setDescription('');
       setDueDate('');
     }
+  };
+
+  const renderList = (id: string) => {
+    const list = lists.find(list => list._id === id);
+    return <span>{list?.title}</span>;
   };
 
   return (
@@ -142,6 +170,23 @@ const TasksRoute: React.FC<ITasksRouteProps> = () => {
                   setDueDate(target.value);
                 }}
               />
+              <Divider />
+              <FormControl className={classes.formControl}>
+                <span>Select List</span>
+                <Select
+                  value={listId}
+                  onChange={handleChange}
+                  className={classes.input}
+                  renderValue={(selected: any) => <div>{renderList(selected)}</div>}
+                  MenuProps={MenuProps}
+                >
+                  {lists.map(task => (
+                    <MenuItem key={task._id} value={task._id}>
+                      {task.title}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
             </div>
             <div style={{ display: 'flex', justifyContent: 'space-evenly', marginTop: 20 }}>
               <Button onClick={closeForm} variant="contained">

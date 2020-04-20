@@ -66,14 +66,20 @@ router.delete("/:id", authN, (req, res) => {
 // edit
 router.put("/:id", authN, (req, res) => {
   const taskId = req.params.id;
-  Task.updateTask(taskId, req.body)
-    .then((uTask) => {
-      res.json(uTask);
-    })
-    .catch((err) => {
-      errService.sendDbErr(res, err);
-      return;
-    });
+  Task.findById(taskId, (err, task) => {
+    if (task) {
+      List.removeTask(task.list, taskId, req.body.list).then(() => {
+        Task.updateTask(taskId, req.body)
+          .then((uTask) => {
+            res.json(uTask);
+          })
+          .catch((err) => {
+            errService.sendDbErr(res, err);
+            return;
+          });
+      });
+    }
+  });
 });
 
 module.exports = router;

@@ -5,7 +5,6 @@ import styled from 'styled-components';
 import Paper from '@material-ui/core/Paper';
 import InputBase from '@material-ui/core/InputBase';
 import { Divider, Collapse, Button, InputLabel } from '@material-ui/core';
-import { KeyboardDatePicker } from '@material-ui/pickers';
 import { useStores } from '../utils/hooks/useStores';
 import { Route } from '../utils/enums/routes';
 import { useHistory } from 'react-router-dom';
@@ -174,9 +173,10 @@ const ListsRoute: React.FC<IListsRouteProps> = () => {
                   className={classes.input}
                   renderValue={(selected: any) => (
                     <div className={classes.chips}>
-                      {selected.map((value: any) => (
-                        <Chip key={value} label={value} className={classes.chip} />
-                      ))}
+                      {selected.map((value: any) => {
+                        const task = taskStore.availableTasks().find(task => task._id === value);
+                        return <Chip key={value} label={task?.title} className={classes.chip} />;
+                      })}
                     </div>
                   )}
                   MenuProps={MenuProps}

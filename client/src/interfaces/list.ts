@@ -1,10 +1,10 @@
-import { ITask } from './task';
+import { ITaskInfo } from './task';
 
 export interface IList {
   _id: string;
   title: string;
   description: string;
-  tasks: ITask[];
+  tasks: ITaskInfo[];
   createdAt: string;
   updatedAt: string;
 }

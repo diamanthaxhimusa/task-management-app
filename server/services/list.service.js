@@ -28,7 +28,6 @@ router.post("/", authN, (req, res) => {
   let newList = new List({ user: id, ...req.body });
   List.addList(newList)
     .then((cList) => {
-      List.addList(newList);
       res.json(cList);
     })
     .catch((err) => {
