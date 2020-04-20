@@ -62,5 +62,5 @@ module.exports.setComplete = (id, completed) => {
 };
 
 module.exports.getUserTasks = (id) => {
-  return Task.find({ user: id });
+  return Task.find({ user: id }).sort({ created_at: -1 });
 };

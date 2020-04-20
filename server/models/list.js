@@ -54,9 +54,27 @@ module.exports.removeTask = (id, taskId, newList) => {
       list.save();
       List.findById(newList, (err, nlist) => {
         if (nlist) {
-          let find = nlist.tasks.find((task) => task == id);
-          if (!find) nlist.tasks.push(id);
-          nlist.save();
+          let find = nlist.tasks.find((task) => task == taskId);
+          if (!find) {
+            nlist.tasks.push(taskId);
+            console.log(nlist.tasks);
+            console.log(taskId);
+
+            nlist.save();
+          }
+        }
+      });
+    } else {
+      List.findById(newList, (err, nlist) => {
+        if (nlist) {
+          let find = nlist.tasks.find((task) => task == taskId);
+          if (!find) {
+            nlist.tasks.push(taskId);
+            console.log(nlist.tasks);
+            console.log(taskId);
+
+            nlist.save();
+          }
         }
       });
     }
