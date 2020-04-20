@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { observer } from 'mobx-react';
 import { makeStyles } from '@material-ui/core/styles';
 import styled from 'styled-components';
@@ -52,11 +52,10 @@ const Container = styled.div`
 `;
 
 const TaskContainer = styled.div`
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: auto auto auto;
   margin-top: 30px;
   width: 100%;
-  justify-content: space-between;
 `;
 
 const TasksRoute: React.FC<ITasksRouteProps> = () => {
@@ -76,9 +75,9 @@ const TasksRoute: React.FC<ITasksRouteProps> = () => {
     setCreateFocused(false);
   };
 
-  const handleDateChange = (date: any) => {
-    setDueDate(date);
-  };
+  useEffect(() => {
+    taskStore.getTasks();
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

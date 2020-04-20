@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { observer } from 'mobx-react';
 import { makeStyles } from '@material-ui/core/styles';
 import styled from 'styled-components';
 import Paper from '@material-ui/core/Paper';
 import InputBase from '@material-ui/core/InputBase';
-import { Divider, Collapse, Button } from '@material-ui/core';
+import { Divider, Collapse, Button, InputLabel } from '@material-ui/core';
 import { KeyboardDatePicker } from '@material-ui/pickers';
 import { useStores } from '../utils/hooks/useStores';
 import { Route } from '../utils/enums/routes';
@@ -48,9 +48,7 @@ const useStyles = makeStyles(theme => ({
     marginBottom: theme.spacing(2)
   },
   formControl: {
-    margin: theme.spacing(1),
-    minWidth: 120,
-    maxWidth: 300
+    margin: theme.spacing(1)
   },
   chips: {
     display: 'flex',
@@ -69,12 +67,11 @@ const Container = styled.div`
   align-items: center;
 `;
 
-const TaskContainer = styled.div`
-  display: flex;
-  flex-wrap: wrap;
+const ListContainer = styled.div`
   margin-top: 30px;
   width: 100%;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: auto auto auto;
 `;
 
 const ITEM_HEIGHT = 48;
@@ -101,8 +98,15 @@ const ListsRoute: React.FC<IListsRouteProps> = () => {
   };
 
   const closeForm = () => {
+    setTitle('');
+    setDescription('');
+    setTasks([]);
     setCreateFocused(false);
   };
+
+  useEffect(() => {
+    listStore.getLists();
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -161,13 +165,13 @@ const ListsRoute: React.FC<IListsRouteProps> = () => {
               />
               <Divider />
               <FormControl className={classes.formControl}>
+                <span>Select Tasks</span>
                 <Select
-                  labelId="demo-mutiple-chip-label"
-                  id="demo-mutiple-chip"
                   multiple
                   value={tasks}
                   onChange={handleChange}
                   input={<Input id="select-multiple-chip" />}
+                  className={classes.input}
                   renderValue={(selected: any) => (
                     <div className={classes.chips}>
                       {selected.map((value: any) => (
@@ -196,11 +200,11 @@ const ListsRoute: React.FC<IListsRouteProps> = () => {
           </form>
         </Collapse>
       </Paper>
-      <TaskContainer>
+      <ListContainer>
         {listStore.lists.map((list, index) => (
           <List key={index} list={list} />
         ))}
-      </TaskContainer>
+      </ListContainer>
     </Container>
   );
 };

@@ -22,9 +22,10 @@ interface IListProps {
 }
 const useStyles = makeStyles(theme => ({
   root: {
-    maxWidth: 400,
-    minWidth: 350,
-    marginBottom: 30
+    maxWidth: 350,
+    minWidth: 280,
+    marginBottom: 30,
+    margin: 'auto'
   },
   media: {
     height: 0,
@@ -69,38 +70,33 @@ const List: React.FC<IListProps> = ({ list }) => {
   return (
     <div>
       <Card className={classes.root}>
-        <CardHeader title={title} />
-        <CardContent>
-          <Typography variant="body2" color="textSecondary" component="p">
-            {description}
-          </Typography>
-          <br />
-          <Divider />
-          <br />
-          <MaterialList classes={{ root: classes.listRoot }}>
-            {tasks.map(task => (
-              <ListItem key={task._id}>
-                <ListItemText primary={task.title} secondary={task.description} />
-                <ListItemSecondaryAction>
-                  <IconButton
-                    onClick={() => removeTaskFromList(task._id)}
-                    edge="end"
-                    aria-label="delete"
-                  >
-                    <XIcon />
-                  </IconButton>
-                </ListItemSecondaryAction>
-              </ListItem>
-            ))}
-          </MaterialList>
-
-          <br />
-          <Divider />
-          <br />
-          <Typography variant="body2" color="textSecondary" component="p">
-            list actions:
-          </Typography>
-        </CardContent>
+        <CardHeader title={title} subheader={description} />
+        {tasks.length > 0 && (
+          <CardContent>
+            <br />
+            <Divider />
+            <br />
+            <MaterialList classes={{ root: classes.listRoot }}>
+              {tasks.map(task => (
+                <ListItem key={task._id}>
+                  <ListItemText primary={task.title} secondary={task.description} />
+                  <ListItemSecondaryAction>
+                    <IconButton
+                      onClick={() => removeTaskFromList(task._id)}
+                      edge="end"
+                      aria-label="delete"
+                    >
+                      <XIcon />
+                    </IconButton>
+                  </ListItemSecondaryAction>
+                </ListItem>
+              ))}
+            </MaterialList>
+            <br />
+            <Divider />
+            <br />
+          </CardContent>
+        )}
         <CardActions disableSpacing>
           <IconButton aria-label="delete" onClick={deleteList}>
             <DeleteIcon />
