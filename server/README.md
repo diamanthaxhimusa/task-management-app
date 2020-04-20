@@ -1,12 +1,3 @@
-# Task management app
-
-### description
-
-Features:
-
-- ...
-- ...
-
 ## Setup
 
 - yarn
