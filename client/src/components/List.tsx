@@ -179,7 +179,11 @@ const List: React.FC<IListProps> = ({ list }) => {
             <MaterialList classes={{ root: classes.listRoot }}>
               {tasks.map(task => (
                 <ListItem key={task._id}>
-                  <ListItemText primary={task.title} secondary={task.description} />
+                  <ListItemText
+                    classes={{ primary: task.completed ? classes.cardHeaderTitleDone : '' }}
+                    primary={task.title}
+                    secondary={task.description}
+                  />
                   <ListItemSecondaryAction>
                     <IconButton
                       onClick={() => removeTaskFromList(task._id)}
