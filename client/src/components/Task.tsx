@@ -127,6 +127,7 @@ const Task: React.FC<ITaskProps> = ({ task }) => {
     const { isSuccess } = await taskStore.editTask(_id, {
       title: etitle,
       description: edescription,
+      due_date: edueDate,
       list: listId
     });
     if (isSuccess) {
