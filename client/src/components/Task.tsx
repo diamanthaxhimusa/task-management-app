@@ -225,6 +225,7 @@ const Task: React.FC<ITaskProps> = ({ task }) => {
                 required
                 className={classes.input}
                 type="date"
+                defaultValue={due_date}
                 value={edueDate}
                 onInput={e => {
                   const target = e.target as HTMLInputElement;
