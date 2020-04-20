@@ -84,7 +84,7 @@ const TasksRoute: React.FC<ITasksRouteProps> = () => {
   const [description, setDescription] = useState<string>('');
   const [dueDate, setDueDate] = React.useState<string>('');
   const [lists, setLists] = useState<IList[]>(listStore.lists);
-  const [listId, setListId] = useState<string>('');
+  const [listId, setListId] = useState<string | null>(null);
 
   const onInputFocus = () => {
     setCreateFocused(true);
@@ -107,7 +107,8 @@ const TasksRoute: React.FC<ITasksRouteProps> = () => {
     const { isSuccess } = await taskStore.createTask({
       title,
       description,
-      due_date: dueDate
+      due_date: dueDate,
+      list: listId
     });
     if (isSuccess) {
       setTitle('');

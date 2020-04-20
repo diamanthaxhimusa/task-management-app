@@ -16,4 +16,5 @@ export interface ITaskCreateReqDTO {
   title: string;
   description: string;
   due_date: string;
+  list?: string | null;
 }

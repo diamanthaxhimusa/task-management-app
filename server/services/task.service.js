@@ -26,6 +26,9 @@ router.get("/", authN, (req, res) => {
 router.post("/", authN, (req, res) => {
   const { id } = req.user;
   let newTask = new Task({ user: id, ...req.body });
+  if (newTask.list) {
+    List.findById(newTask.list, (err, list) => list.tasks.push(newTask._id));
+  }
   Task.addTask(newTask)
     .then((cTask) => {
       List.addTask(newTask);
